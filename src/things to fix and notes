@@ -1,5 +1,15 @@
-changing country while in fahrenheit leads to api sending info in celsius 
-in which the user can again 'change to celsius' producing wrong temp.
-    * maybe reset to celsius everytime country is changed?
-    * or change unit that api gets info
+_fixed bug_
 
+**selected solution**
+
+### _changing country while in fahrenheit leads to api sending info in celsius_
+
+in which the user can again 'change to celsius' producing wrong temp.
+
+- maybe reset to celsius everytime country is changed?
+- **or change unit that api gets info**
+
+### time changes that match up with city
+
+- reformat all dates based on utc and do conversions
+- depending on inputted country, change date.now to date.(whatever country)

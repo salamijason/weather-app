@@ -9,6 +9,16 @@ let date = document.querySelector(`#day`);
 let year = document.querySelector(`#year`);
 let now = new Date();
 
+// utc 
+let utcWeekday = daysOfWeek[now.getUTCDay()];
+let utcMonth = months[now.getUTCMonth()];
+let utcDate = now.getUTCDate();
+let utcYear = now.getUTCFullYear();
+let utcHours = now.getUTCHours();
+let utcMins = now.getUTCMinutes();
+let utcSecs = now.getUTCSeconds();
+console.log(`UTC TIME RIGHT NOW: ${utcWeekday} ${utcMonth} ${utcDate} ${utcYear} ${utcHours}hrs ${utcMins}mins ${utcSecs}secs`);
+
 // date formatting
 dayOfWeek.innerHTML = `${daysOfWeek[now.getDay()]}`;
 let hours = now.getHours();
@@ -21,7 +31,7 @@ if (minutes < 10) {
 }
 
 hourOfDay.innerHTML = hours;
-minuteOfDay.innerHTML = `${now.getMinutes()}`;
+minuteOfDay.innerHTML = minutes;
 month.innerHTML = `${months[now.getMonth()]}`;
 date.innerHTML = `${now.getDate()}`;
 year.innerHTML = `${now.getFullYear()}`;
