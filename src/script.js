@@ -80,12 +80,18 @@ let currentCityTemp = document.querySelector(`#temp`);
 let currentDesc = document.querySelector(`#weather`);
 let humidity = document.querySelector(`#humidity`);
 let wind = document.querySelector(`#wind`);
-let unit = 'metric'
-if (celsiusButton.classList.contains(`clicked`)) {
+let unit = ``;
+function checkUnit(){
+    if (celsiusButton.classList.contains(`clicked`)) {
     unit = 'metric';
-} else {
+    console.log(unit);
+    } else if (fahrenheitButton.classList.contains(`clicked`)) {
     unit = 'imperial';
+    console.log(unit);
+    }
+    return unit;
 }
+
 
 function changeCountry(event) {
   event.preventDefault();
@@ -95,6 +101,7 @@ function changeCountry(event) {
 
 
   // api variables
+  unit = checkUnit();
   let apiUrlCity = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity.innerHTML}&units=${unit}&appid=${apiKey}`;
   function changeInformation (response) {
     let currentTemp = Math.round(response.data.main.temp);
@@ -116,6 +123,7 @@ function setCountry(event) {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
         // api variables
+        unit = checkUnit();
         let apiKey = `866a208a73eeff02182218e9441647a1`;
         let apiUrlCoords = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
         function changeSetLocation(response) {
@@ -150,6 +158,7 @@ function setTokyo(event) {
   currentCity.innerHTML = `Tokyo`;
 
   // api variables
+  unit = checkUnit();
   let apiUrlCity = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity.innerHTML}&units=${unit}&appid=${apiKey}`;
   function changeInformation (response) {
     let currentTemp = Math.round(response.data.main.temp);
@@ -175,6 +184,7 @@ function setLondon(event) {
 
 
   // api variables
+  unit = checkUnit();
   let apiUrlCity = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity.innerHTML}&units=${unit}&appid=${apiKey}`;
   function changeInformation (response) {
     let currentTemp = Math.round(response.data.main.temp);
@@ -192,6 +202,7 @@ function setLondon(event) {
 }
 
 function setNewYork(event) {
+  unit = checkUnit();
   event.preventDefault();
 
   
