@@ -17,23 +17,33 @@
       integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <div class="container">
       <div class="header"></div>
       <div class="row">
-        <div class="col">
+        <div class="col-8">
           <div class="locationbuttongrp">
             <button class="location clicked">Tokyo</button>
             <button class="location">New York</button>
             <button class="location">London</button>
-            <button class="search">Search</button>
+            <button id="location-set" class="location-current">Current</button>
+            <form id="city-search" class="search">
+              <input
+                class="search"
+                type="text"
+                placeholder="Search for a city..."
+                id="city-input"
+              />
+              <input class="search" type="submit" value="Search" />
+            </form>
           </div>
         </div>
         <div class="col">
-          <div class="unitbuttongrp">
-            <button class="unit clicked">°C</button>
-            <button class="unit">°F</button>
+          <div id="unit-buttons" class="unitbuttongrp">
+            <button id="celsius" class="unit clicked">°C</button>
+            <button id="fahrenheit" class="unit">°F</button>
           </div>
         </div>
       </div>
@@ -50,9 +60,12 @@
                   </div>
                   <div class="col">
                     <div class="maintemp">
-                      <h2>Tokyo</h2>
-                      <h1>38°C</h1>
-                      <h4>Cloudy</h4>
+                      <h2 id="city">Tokyo</h2>
+                      <h1 id="temp-and-unit">
+                        <span id="temp">38</span>
+                        <span id="unit">°C</span>
+                      </h1>
+                      <h4 id="weather">Cloudy</h4>
                     </div>
                   </div>
                 </div>
@@ -60,8 +73,17 @@
 
               <div class="col">
                 <div class="date">
-                  <h3>Saturday 15:15</h3>
-                  <h4>April 29, 2023</h4>
+                  <h3>
+                    <span id="day-of-week">Sunday</span>
+                    <span id="hour-of-day">00</span>:<span id="minute-of-day"
+                      >00</span
+                    >
+                  </h3>
+                  <h4>
+                    <span id="month">January</span>
+                    <span id="day">00</span>,
+                    <span id="year">0000</span>
+                  </h4>
                 </div>
               </div>
             </div>
@@ -82,13 +104,31 @@
           <div class="widget">
             <div class="details">
               <ul>
-                <li>Precipitation: 10%</li>
-                <li>Humidity: 40%</li>
-                <li>Wind: 10 km/h</li>
+                <li>
+                  Humidity:
+                  <span class="stat"> <span id="humidity">10</span>%</span>
+                </li>
+                <li>
+                  Wind:
+                  <span class="stat">
+                    <span class="stat" id="wind">10</span>m/sec</span
+                  >
+                </li>
               </ul>
             </div>
           </div>
         </div>
+      </div>
+      <div class="footer">
+        <p class="creds">
+          coded by
+          <a
+            alt="Link to CV"
+            href="https://oattrakyaw.notion.site/Kyaw-Oattra-CV-1e80d3697dc64074a8cb86b78c1a83da"
+          >
+            Oattra Kyaw</a
+          >
+        </p>
       </div>
     </div>
     <script src="src/script.js"></script>

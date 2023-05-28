@@ -12,8 +12,10 @@ ul {
 div.widget {
     margin: 10px;
     padding: 20px;
-    border: 2px solid #233142;
+    border: 2px solid #e3e3e3;
     border-radius: 20px;
+    background-color: #e3e3e3;
+    box-shadow: 2px 2px 3px .50px #f95959;
 }
 div.icon {
     font-size: 70px;
@@ -29,7 +31,19 @@ div.locationbuttongrp {
     text-align: left;
 }
 
-button.location, button.search {
+span.stat {
+    color:#f95959;
+}
+
+form.search {
+    display: inline;
+}
+
+input.search:hover {
+    background-color: #233142;
+    color: #e3e3e3
+}
+button.location, input.search, button.location-current {
     color: #233142;
     font-weight: 500;
     border-radius: 20px;
@@ -38,9 +52,10 @@ button.location, button.search {
     margin: 5px 5px;
     background-color: #e3e3e3;
     transition: all 200ms ease-in-out;
+    box-shadow: 1px 1px 1px .25px #455d7a;
 }
 
-button.location:hover, button.search:hover {
+button.location:hover {
     background-color: #233142;
     color:#e3e3e3
     
@@ -51,7 +66,11 @@ button.location.clicked {
 }
 
 button.location.clicked:hover {
-        color: #233142
+    color: #233142
+}
+
+button.location-current {
+    background-color: #348aec;
 }
 
 div.unitbuttongrp {
@@ -67,6 +86,7 @@ button.unit {
     margin: 5px 1px;
     background-color: #e3e3e3;
     transition: all 200ms ease-in-out;
+    box-shadow: 1px 1px 1px .25px #455d7a;
 
 }
 
