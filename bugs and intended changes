@@ -8,8 +8,12 @@ in which the user can again 'change to celsius' producing wrong temp.
 
 - maybe reset to celsius everytime country is changed?
 - **or change unit that api gets info**
+  convert shift in seconds to hours, mins
+  if shift in hours is great enough, convert change in day
 
 ### time changes that match up with city
 
 - reformat all dates based on utc and do conversions
 - depending on inputted country, change date.now to date.(whatever country)
+
+### inaccurate starting page (currently just placeholders)
