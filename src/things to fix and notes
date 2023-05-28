@@ -1,0 +1,5 @@
+changing country while in fahrenheit leads to api sending info in celsius 
+in which the user can again 'change to celsius' producing wrong temp.
+    * maybe reset to celsius everytime country is changed?
+    * or change unit that api gets info
+
