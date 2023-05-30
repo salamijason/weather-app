@@ -8,6 +8,7 @@ let month = document.querySelector(`#month`);
 let date = document.querySelector(`#day`);
 let year = document.querySelector(`#year`);
 let now = new Date();
+console.log(now);
 
 // utc 
 let utcWeekday = daysOfWeek[now.getUTCDay()];
@@ -20,6 +21,25 @@ let utcSecs = now.getUTCSeconds();
 console.log(`UTC TIME RIGHT NOW: ${utcWeekday} ${utcMonth} ${utcDate} ${utcYear} ${utcHours}hrs ${utcMins}mins ${utcSecs}secs`);
 
 // date formatting
+function formatTime (offsetsecs){
+  
+  offsetHours = ((offsetsecs)/60)/60;
+  offsetMins = ((offsetsecs)/60)-(60*Math.floor(offsetHours));
+
+  console.log(offsetMins,offsetHours);
+  
+  let hours = utcHours+Math.floor(offsetHours);
+  if (hours < 10) {
+      hours = `0${hours}`;
+  }
+  let minutes = utcMins+offsetMins;
+  if (minutes < 10) {
+      minutes = `0${minutes}`;
+  }
+  hourOfDay.innerHTML = hours;
+  minuteOfDay.innerHTML = minutes;
+}
+
 dayOfWeek.innerHTML = `${daysOfWeek[now.getDay()]}`;
 let hours = now.getHours();
 if (hours < 10) {
@@ -102,7 +122,6 @@ function checkUnit(){
     return unit;
 }
 
-
 function changeCountry(event) {
   event.preventDefault();
 
@@ -123,6 +142,11 @@ function changeCountry(event) {
     currentDesc.innerHTML = response.data.weather[0].description;
     humidity.innerHTML = response.data.main.humidity;
     wind.innerHTML = response.data.wind.speed;
+    
+    // correcting time 
+    utcOffset = response.data.timezone;
+    console.log(utcOffset);
+    formatTime (utcOffset);
   }
   
   axios.get(apiUrlCity).then(changeInformation);
@@ -147,6 +171,11 @@ function setCountry(event) {
             humidity.innerHTML = response.data.main.humidity;
             wind.innerHTML = response.data.wind.speed;
 
+            // correcting time 
+            utcOffset = response.data.timezone;
+            console.log(utcOffset);
+            formatTime (utcOffset);
+            
         }
         axios.get(apiUrlCoords).then(changeSetLocation);
     }   
@@ -178,6 +207,11 @@ function setTokyo(event) {
     currentDesc.innerHTML = response.data.weather[0].description;
     humidity.innerHTML = response.data.main.humidity;
     wind.innerHTML = response.data.wind.speed;
+
+    // correcting time 
+    utcOffset = response.data.timezone;
+    console.log(utcOffset);
+    formatTime (utcOffset);
   }
   
   axios.get(apiUrlCity).then(changeInformation);
@@ -204,6 +238,11 @@ function setLondon(event) {
     currentDesc.innerHTML = response.data.weather[0].description;
     humidity.innerHTML = response.data.main.humidity;
     wind.innerHTML = response.data.wind.speed;
+
+    // correcting time 
+      utcOffset = response.data.timezone;
+      console.log(utcOffset);
+      formatTime (utcOffset);
   }
   axios.get(apiUrlCity).then(changeInformation);
   tokyoButton.classList.remove(`clicked`);
@@ -229,6 +268,11 @@ function setNewYork(event) {
     currentDesc.innerHTML = response.data.weather[0].description;
     humidity.innerHTML = response.data.main.humidity;
     wind.innerHTML = response.data.wind.speed;
+
+    // correcting time 
+      utcOffset = response.data.timezone;
+      console.log(utcOffset);
+      formatTime (utcOffset);
   }
   
   axios.get(apiUrlCity).then(changeInformation);

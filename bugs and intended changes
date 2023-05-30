@@ -13,7 +13,10 @@ in which the user can again 'change to celsius' producing wrong temp.
 
 ### time changes that match up with city
 
-- reformat all dates based on utc and do conversions
+- **reformat all dates based on utc and do conversions**
+  hour and minutes have been fixed but not day. for example: early morning on tuesday in a country is late night monday in another.
 - depending on inputted country, change date.now to date.(whatever country)
 
 ### inaccurate starting page (currently just placeholders)
+
+### clean up code with functions
