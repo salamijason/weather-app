@@ -14,7 +14,7 @@ in which the user can again 'change to celsius' producing wrong temp.
 ### time changes that match up with city
 
 - **reformat all dates based on utc and do conversions**
-  hour and minutes have been fixed but not day. for example: early morning on tuesday in a country is late night monday in another.
+  hours, minutes, and days have been fixed, not years and months though. for example: early morning on 2022 is late 2021 night in another.
 - depending on inputted country, change date.now to date.(whatever country)
 
 ### _icons change with description and day/night_

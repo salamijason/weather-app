@@ -21,24 +21,6 @@ let utcSecs = now.getUTCSeconds();
 console.log(`UTC TIME RIGHT NOW: ${utcWeekday} ${utcMonth} ${utcDate} ${utcYear} ${utcHours}hrs ${utcMins}mins ${utcSecs}secs`);
 
 // date formatting
-function formatTime (offsetsecs){
-  
-  offsetHours = ((offsetsecs)/60)/60;
-  offsetMins = ((offsetsecs)/60)-(60*Math.floor(offsetHours));
-
-  console.log(offsetMins,offsetHours);
-  
-  let hours = utcHours+Math.floor(offsetHours);
-  if (hours < 10) {
-      hours = `0${hours}`;
-  }
-  let minutes = utcMins+offsetMins;
-  if (minutes < 10) {
-      minutes = `0${minutes}`;
-  }
-  hourOfDay.innerHTML = hours;
-  minuteOfDay.innerHTML = minutes;
-}
 
 dayOfWeek.innerHTML = `${daysOfWeek[now.getDay()]}`;
 let hours = now.getHours();
@@ -55,6 +37,30 @@ minuteOfDay.innerHTML = minutes;
 month.innerHTML = `${months[now.getMonth()]}`;
 date.innerHTML = `${now.getDate()}`;
 year.innerHTML = `${now.getFullYear()}`;
+
+function formatTime (offsetsecs){
+  
+  offsetHours = ((offsetsecs)/60)/60;
+  offsetMins = ((offsetsecs)/60)-(60*Math.floor(offsetHours));
+
+  console.log(offsetMins,offsetHours);
+  
+  let hours = utcHours+Math.floor(offsetHours);
+  if (hours < 0){
+    hours = 24+hours;
+    dayOfWeek.innerHTML = `${daysOfWeek[now.getDay()-1]}`;
+    date.innerHTML = `${now.getDate()-1}`;
+  }
+  else if (hours < 10) {
+      hours = `0${hours}`;
+  }
+  let minutes = utcMins+offsetMins;
+  if (minutes < 10) {
+      minutes = `0${minutes}`;
+  }
+  hourOfDay.innerHTML = hours;
+  minuteOfDay.innerHTML = minutes;
+}
 
 // unit change
 let celsiusButton = document.querySelector(`#celsius`);
@@ -129,11 +135,15 @@ function setWeatherIcon () {
   let newIcon = ``;
   let condition = ``;
   // day or night
-  if (hours <= 18){
-    dayOrNight = `d`;
+  console.log(hourOfDay.innerHTML);
+  if (hourOfDay.innerHTML >= 18){
+    dayOrNight = `n`;
+  }
+  else if (hourOfDay.innerHTML <= 6){
+    dayOrNight = `n`;
   }
   else {
-    dayOrNight = `n`;
+    dayOrNight = `d`;
   }
 
   // weather conditions
@@ -141,6 +151,7 @@ function setWeatherIcon () {
   if (currentDesc.innerHTML === `clear sky`){
     condition = `01`;
     newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    
     currentMainIcon.setAttribute(`src`,`${newIcon}`);
   }
   else if (currentDesc.innerHTML === `few clouds`) {
@@ -183,6 +194,7 @@ function setWeatherIcon () {
     newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
     currentMainIcon.setAttribute(`src`,`${newIcon}`);
   }
+  console.log(newIcon);
 }
 
 function changeCountry(event) {
@@ -216,6 +228,9 @@ function changeCountry(event) {
   }
   
   axios.get(apiUrlCity).then(changeInformation);
+  tokyoButton.classList.remove(`clicked`);
+  londonButton.classList.remove(`clicked`);
+  newyorkButton.classList.remove('clicked');
 }
 function setCountry(event) {
     event.preventDefault();
