@@ -103,14 +103,17 @@ let changeToFahrenheitButton = document.querySelector(`#fahrenheit`);
 changeToCelsiusButton.addEventListener(`click`,changeToCelsius);
 changeToFahrenheitButton.addEventListener(`click`,changeToFahrenheit);
 
-// search function and weather info retrieval
+// search function and weather info retrieval, icon swapping
 let apiKey = `866a208a73eeff02182218e9441647a1`;
 let currentCity = document.querySelector(`#city`);
 let currentCityTemp = document.querySelector(`#temp`);
 let currentDesc = document.querySelector(`#weather`);
 let humidity = document.querySelector(`#humidity`);
 let wind = document.querySelector(`#wind`);
+let currentMainIcon = document.querySelector(`#main-icon`);
 let unit = ``;
+let dayOrNight = ``;
+
 function checkUnit(){
     if (celsiusButton.classList.contains(`clicked`)) {
     unit = 'metric';
@@ -120,6 +123,66 @@ function checkUnit(){
     console.log(unit);
     }
     return unit;
+}
+
+function setWeatherIcon () {
+  let newIcon = ``;
+  let condition = ``;
+  // day or night
+  if (hours <= 18){
+    dayOrNight = `d`;
+  }
+  else {
+    dayOrNight = `n`;
+  }
+
+  // weather conditions
+  
+  if (currentDesc.innerHTML === `clear sky`){
+    condition = `01`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
+  else if (currentDesc.innerHTML === `few clouds`) {
+    condition = `02`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
+  else if (currentDesc.innerHTML === `scattered clouds`) {
+    condition = `03`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
+  else if (currentDesc.innerHTML === `broken clouds` || currentDesc.innerHTML === `overcast clouds`) {
+    condition = `04`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
+  else if (currentDesc.innerHTML === `shower rain`) {
+    condition = `09`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
+  else if (currentDesc.innerHTML === `rain`) {
+    condition = `10`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
+  else if (currentDesc.innerHTML === `thunderstorm`) {
+    condition = `11`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
+  else if (currentDesc.innerHTML === `snow`) {
+    condition = `13`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
+  else if (currentDesc.innerHTML === `mist`) {
+    condition = `50`;
+    newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
+    currentMainIcon.setAttribute(`src`,`${newIcon}`);
+  }
 }
 
 function changeCountry(event) {
@@ -147,6 +210,9 @@ function changeCountry(event) {
     utcOffset = response.data.timezone;
     console.log(utcOffset);
     formatTime (utcOffset);
+
+    //setting icon
+    setWeatherIcon();
   }
   
   axios.get(apiUrlCity).then(changeInformation);
@@ -175,6 +241,9 @@ function setCountry(event) {
             utcOffset = response.data.timezone;
             console.log(utcOffset);
             formatTime (utcOffset);
+
+            //setting icon
+            setWeatherIcon();
             
         }
         axios.get(apiUrlCoords).then(changeSetLocation);
@@ -212,6 +281,9 @@ function setTokyo(event) {
     utcOffset = response.data.timezone;
     console.log(utcOffset);
     formatTime (utcOffset);
+
+    //setting icon
+    setWeatherIcon();
   }
   
   axios.get(apiUrlCity).then(changeInformation);
@@ -240,9 +312,12 @@ function setLondon(event) {
     wind.innerHTML = response.data.wind.speed;
 
     // correcting time 
-      utcOffset = response.data.timezone;
-      console.log(utcOffset);
-      formatTime (utcOffset);
+    utcOffset = response.data.timezone;
+    console.log(utcOffset);
+    formatTime (utcOffset);
+
+    //setting icon
+    setWeatherIcon();
   }
   axios.get(apiUrlCity).then(changeInformation);
   tokyoButton.classList.remove(`clicked`);
@@ -270,9 +345,12 @@ function setNewYork(event) {
     wind.innerHTML = response.data.wind.speed;
 
     // correcting time 
-      utcOffset = response.data.timezone;
-      console.log(utcOffset);
-      formatTime (utcOffset);
+    utcOffset = response.data.timezone;
+    console.log(utcOffset);
+    formatTime (utcOffset);
+
+    //setting icon
+    setWeatherIcon();
   }
   
   axios.get(apiUrlCity).then(changeInformation);
