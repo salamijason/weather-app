@@ -17,7 +17,7 @@ in which the user can again 'change to celsius' producing wrong temp.
   hour and minutes have been fixed but not day. for example: early morning on tuesday in a country is late night monday in another.
 - depending on inputted country, change date.now to date.(whatever country)
 
-### icons change with description and day/night
+### _icons change with description and day/night_
 
 ### inaccurate starting page (currently just placeholders)
 
