@@ -3,6 +3,16 @@ h1, h2, h3, h4, h5, h6, p {
     margin: 10px ;
 }
 
+.footer {
+    font-weight: 500;
+    font-size: small;
+    
+}
+.footer a {
+    color:#f95959;
+    text-decoration: none;
+}
+
 .forecastHead {
     margin: 15px 20px;
 }
