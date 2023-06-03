@@ -3,9 +3,14 @@ h1, h2, h3, h4, h5, h6, p {
     margin: 10px ;
 }
 
+h2.atAGlance {
+    margin-left: 20px;
+}
+
 .footer {
     font-weight: 500;
     font-size: small;
+    margin: 0 10px;
     
 }
 .footer a {
