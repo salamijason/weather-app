@@ -20,6 +20,7 @@
   let utcSecs = now.getUTCSeconds();
   console.log(`UTC TIME RIGHT NOW: ${utcWeekday} ${utcMonth} ${utcDate} ${utcYear} ${utcHours}hrs ${utcMins}mins ${utcSecs}secs`);
 
+
 // date formatting
   dayOfWeek.innerHTML = `${daysOfWeek[now.getDay()]}`;
   let hours = now.getHours();
@@ -108,6 +109,7 @@
   changeToCelsiusButton.addEventListener(`click`,changeToCelsius);
   changeToFahrenheitButton.addEventListener(`click`,changeToFahrenheit);
 
+
 // search function and weather info retrieval, icon swapping
   let apiKey = `866a208a73eeff02182218e9441647a1`;
   let currentCity = document.querySelector(`#city`);
@@ -118,6 +120,13 @@
   let currentMainIcon = document.querySelector(`#main-icon`);
   let unit = ``;
   let dayOrNight = ``;
+
+// starting page
+  currentCity.innerHTML = `Check the weather`;
+  currentCityTemp.innerHTML = 0;
+  currentDesc.innerHTML = `for any city`;
+
+    
 
   function checkUnit(){
       if (celsiusButton.classList.contains(`clicked`)) {
