@@ -31,9 +31,6 @@
   if (minutes < 10) {
       minutes = `0${minutes}`;
   }
-
-  hourOfDay.innerHTML = hours;
-  minuteOfDay.innerHTML = minutes;
   month.innerHTML = `${months[now.getMonth()]}`;
   date.innerHTML = `${now.getDate()}`;
   year.innerHTML = `${now.getFullYear()}`;
@@ -60,6 +57,13 @@
     }
     hourOfDay.innerHTML = hours;
     minuteOfDay.innerHTML = minutes;
+  }
+
+  function formatDay (timestamp){
+    let date = new Date(timestamp * 1000);
+    let day = date.getDay();
+
+    return daysOfWeek[day];
   }
 
 // unit change
@@ -148,93 +152,6 @@
       return unit;
   }
 
-  function setWeatherIcon () {
-    let newIcon = ``;
-    let condition = ``;
-    // day or night
-    console.log(hourOfDay.innerHTML);
-    if (hourOfDay.innerHTML >= 18){
-      dayOrNight = `n`;
-    }
-    else if (hourOfDay.innerHTML <= 6){
-      dayOrNight = `n`;
-    }
-    else {
-      dayOrNight = `d`;
-    }
-
-    // weather conditions
-    
-    if (currentDesc.innerHTML === `clear sky`){
-      condition = `01`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    else if (currentDesc.innerHTML === `few clouds`) {
-      condition = `02`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    else if (currentDesc.innerHTML === `scattered clouds`) {
-      condition = `03`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    else if (currentDesc.innerHTML === `broken clouds` || currentDesc.innerHTML === `overcast clouds`) {
-      condition = `04`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    else if (currentDesc.innerHTML === `shower rain`) {
-      condition = `09`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    else if (currentDesc.innerHTML === `rain` || currentDesc.innerHTML === `light rain` || currentDesc.innerHTML === `moderate rain`) {
-      condition = `10`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    else if (currentDesc.innerHTML === `thunderstorm`) {
-      condition = `11`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    else if (currentDesc.innerHTML === `snow`) {
-      condition = `13`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    else if (currentDesc.innerHTML === `mist`) {
-      condition = `50`;
-      newIcon = `https://openweathermap.org/img/wn/${condition}${dayOrNight}@2x.png`;
-      currentMainIcon.setAttribute(`src`,`${newIcon}`);
-    }
-    console.log(newIcon);
-  }
-
-  function changeInformation (response) {
-    let currentTemp = Math.round(response.data.main.temp);
-    console.log(response.data);
-    currentCity.innerHTML = response.data.name;
-    currentCityTemp.innerHTML = currentTemp;
-    currentDesc.innerHTML = response.data.weather[0].description;
-    humidity.innerHTML = response.data.main.humidity;
-    wind.innerHTML = response.data.wind.speed;
-
-    // correcting time 
-    utcOffset = response.data.timezone;
-    console.log(utcOffset);
-    formatTime (utcOffset);
-
-    //setting icon
-    setWeatherIcon();
-
-    // forecast
-    displayForecast();
-  }
-
   function changeCountry(event) {
     event.preventDefault();
 
@@ -270,32 +187,64 @@
       londonButton.classList.remove(`clicked`);
       newyorkButton.classList.remove('clicked');
   }
-  function displayForecast() {
-    let forecastElement = document.querySelector(`#forecast`);
-    let days = [`Saturday`,`Sunday`, `Monday`, `Tuesday`, `Wednesday`];
+
+ function changeInformation (response) {
+    let currentTemp = Math.round(response.data.main.temp);
+    console.log(response.data);
+    currentCity.innerHTML = response.data.name;
+    currentCityTemp.innerHTML = currentTemp;
+    currentDesc.innerHTML = response.data.weather[0].description;
+    humidity.innerHTML = response.data.main.humidity;
+    wind.innerHTML = response.data.wind.speed;
+
+    // correcting time 
+    utcOffset = response.data.timezone;
+    console.log(utcOffset);
+    formatTime (utcOffset);
+
+    //setting icon
+    currentMainIcon.setAttribute(`src`,`https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
+
+    // forecast
+    getForecast(response.data.coord);
+  }
+
+  function getForecast(coordinates) {
+    console.log(coordinates);
+
+    let apiUrlFore = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=${unit}&appid=${apiKey}`;
     
-    let forecastHTML = ``;
-    forecastHTML =`<div class="row">`;
-    days.forEach(function(day)  {
-      forecastHTML = forecastHTML + `
+    axios.get(apiUrlFore).then(displayForecast);
+  }
+  function displayForecast(response) {
+    console.log(response.data.daily);
+    let forecastElement = document.querySelector(`#forecast`);
+   
+    let forecastHTML =`<div class="row">`;
+    let days = response.data.daily.slice(1,6);
+    let dayincrement = 0;
+    days.forEach(function(forecastday)  {
+      forecastHTML += `
       <div class="col forecastStats">
         <div class="icon">
           <img
             class="icon"
-            id="forecast-one-icon"
-            src="https://openweathermap.org/img/wn/02d@2x.png"
-          />
-        </div>
-        <h6 > ${day} </h6>
+            id="forecast-icon"
+            src="https://openweathermap.org/img/wn/${forecastday.weather[0].icon}@2x.png"
+            />
+            </div>
+        <h6 > ${formatDay(forecastday.dt)} </h6>
         <h3 id="temp-and-unit">
-          <span id="temp">38</span>
+          <span id="temp">${Math.round(forecastday.temp.max)}</span>
+          <span id="unit">°C</span> /
+          <span id="temp">${Math.round(forecastday.temp.min)}</span>
           <span id="unit">°C</span>
         </h3>
-        <h6 id="forecast-one-weather">Partly Cloudy</h6>
-      </div>`
-    });
+        <h6 id="forecast-one-weather">${forecastday.weather[0].description}</h6>
+        </div>`;
+        dayincrement = dayincrement + 1;
+      });
     
-    forecastHTML = forecastHTML + `</div>`;
     forecastElement.innerHTML= forecastHTML;
   } 
 

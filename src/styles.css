@@ -7,6 +7,7 @@ h2.atAGlance {
     margin-left: 20px;
 }
 
+
 .footer {
     font-weight: 500;
     font-size: small;
@@ -26,6 +27,10 @@ h2.atAGlance {
     margin: 5px 25px;
 }
 
+.forecastStats h3 {
+    font-size: 20px;
+}
+
 .forecastStats .icon img {
     font-size: 80px;
     margin: 10px;
@@ -35,8 +40,9 @@ h2.atAGlance {
 ul {
     list-style: none;
     font-weight: 500;
+    font-size: 15px;
     padding-top:15px;
-    margin: 35px;
+    margin-left: 50px;
     text-align: left;
 }
 
@@ -51,11 +57,13 @@ div.widget {
 
 img.main  {
     width: 100px;
-    margin: 10px;
+    margin: 20px;
 }
-
-div.maintemp, div.date {
-    margin: 10px auto;
+div.maintemp {
+    margin: 30px auto;
+}
+div.date {
+    margin: 40px 50px;
 }
 
 div.locationbuttongrp {
