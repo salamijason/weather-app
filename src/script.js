@@ -78,10 +78,15 @@
           fahrenheitButton.classList.add(`clicked`);
 
           // change page temp and unit
-          let currentCityTemp = document.querySelector(`#temp`);
-          currentCityTemp.innerHTML = Math.round((currentCityTemp.innerHTML * (9/5))+32);
-          let currentUnit = document.querySelector(`#unit`); 
-          currentUnit.innerHTML = `°F`;
+          let currentCityTemp = document.querySelectorAll(`#temp`);
+          currentCityTemp.forEach((tempelement) => {
+            tempelement.innerHTML = Math.round((tempelement.innerHTML * (9/5))+32);
+          });
+          let currentUnit = document.querySelectorAll(`#unit`); 
+          currentUnit.forEach((unitelement) => {
+            unitelement.innerHTML = `°F`;
+          });
+          
       }
   }
 
@@ -97,10 +102,15 @@
           fahrenheitButton.classList.remove(`clicked`);
 
           // change page temp and unit
-          let currentCityTemp = document.querySelector(`#temp`);
-          currentCityTemp.innerHTML = Math.round((currentCityTemp.innerHTML - 32) * (5/9));
-          let currentUnit = document.querySelector(`#unit`); 
-          currentUnit.innerHTML = `°C`;
+          let currentCityTemp = document.querySelectorAll(`#temp`);
+          currentCityTemp.forEach((tempelement) => {
+            tempelement.innerHTML = Math.round((tempelement.innerHTML - 32) * (5/9));
+          });
+          
+          let currentUnit = document.querySelectorAll(`#unit`); 
+          currentUnit.forEach((unitelement) => {
+            unitelement.innerHTML = `°C`;
+          });
       }
 
   }
@@ -121,12 +131,11 @@
   let unit = ``;
   let dayOrNight = ``;
 
-// starting page
-  currentCity.innerHTML = `Check the weather`;
-  currentCityTemp.innerHTML = 0;
-  currentDesc.innerHTML = `for any city`;
-
-    
+  // starting page
+    // api variables
+    unit = checkUnit();
+    let apiUrlCity = `https://api.openweathermap.org/data/2.5/weather?q=Cairo&units=${unit}&appid=${apiKey}`;
+    axios.get(apiUrlCity).then(changeInformation);
 
   function checkUnit(){
       if (celsiusButton.classList.contains(`clicked`)) {
@@ -221,6 +230,9 @@
 
     //setting icon
     setWeatherIcon();
+
+    // forecast
+    displayForecast();
   }
 
   function changeCountry(event) {
@@ -249,34 +261,43 @@
           unit = checkUnit();
           let apiKey = `866a208a73eeff02182218e9441647a1`;
           let apiUrlCoords = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
-          function changeSetLocation(response) {
-              currentCity.innerHTML = `Current location`;
-
-              let currentTemp = Math.round(response.data.main.temp);
-
-              console.log(response.data);
-              currentCityTemp.innerHTML = currentTemp;    
-              currentDesc.innerHTML = response.data.weather[0].description;
-              humidity.innerHTML = response.data.main.humidity;
-              wind.innerHTML = response.data.wind.speed;
-
-              // correcting time 
-              utcOffset = response.data.timezone;
-              console.log(utcOffset);
-              formatTime (utcOffset);
-
-              //setting icon
-              setWeatherIcon();
-              
-          }
-          axios.get(apiUrlCoords).then(changeSetLocation);
+          currentCity.innerHTML = `Current location`;
+          
+          axios.get(apiUrlCoords).then(changeInformation);
       }   
       navigator.geolocation.getCurrentPosition(getLocation);
       tokyoButton.classList.remove(`clicked`);
       londonButton.classList.remove(`clicked`);
       newyorkButton.classList.remove('clicked');
   }
-
+  function displayForecast() {
+    let forecastElement = document.querySelector(`#forecast`);
+    let days = [`Saturday`,`Sunday`, `Monday`, `Tuesday`, `Wednesday`];
+    
+    let forecastHTML = ``;
+    forecastHTML =`<div class="row">`;
+    days.forEach(function(day)  {
+      forecastHTML = forecastHTML + `
+      <div class="col forecastStats">
+        <div class="icon">
+          <img
+            class="icon"
+            id="forecast-one-icon"
+            src="https://openweathermap.org/img/wn/02d@2x.png"
+          />
+        </div>
+        <h6 > ${day} </h6>
+        <h3 id="temp-and-unit">
+          <span id="temp">38</span>
+          <span id="unit">°C</span>
+        </h3>
+        <h6 id="forecast-one-weather">Partly Cloudy</h6>
+      </div>`
+    });
+    
+    forecastHTML = forecastHTML + `</div>`;
+    forecastElement.innerHTML= forecastHTML;
+  } 
 
   let citysearch = document.querySelector("#city-search");
   citysearch.addEventListener("submit", changeCountry);
